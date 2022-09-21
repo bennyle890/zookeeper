@@ -11,6 +11,8 @@ app.use(express.urlencoded({ extended: true }));
 // parse incoming JSON data
 app.use(express.json());
 
+app.use(express.static('public'));
+
 function filterByQuery(query, animalsArray) {
   let personalityTraitsArray = [];
   let filteredResults = animalsArray;
@@ -102,6 +104,40 @@ app.post('/api/animals', (req, res) => {
     }
   });
 
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'));
+});
+
+app.get('/animals', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/animals.html'));
+});
+
+app.get('/zookeepers', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/zookeepers.html'));
+});
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'));
+});
+
+// fetch('/api/animals', {
+//     method: 'POST',
+//     headers: {
+//         Accept: 'application/json',
+//         'Content-Type': 'application/json'
+//     },
+//     body: JSON.stringify(animalObject)
+// })
+// .then(response => {
+//     if (response.ok) {
+//         return response.json();
+//     }
+//     alert('Error: ' + response.statusText);
+// })
+// .then(postResponse => {
+//     console.log(postResponse);
+//     alert('Thank you for adding an animal!');
+// });
 
 app.listen(PORT, () => {
   console.log(`API server now on port ${PORT}!`);
